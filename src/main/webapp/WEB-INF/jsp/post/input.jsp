@@ -22,7 +22,7 @@
 					<input type="text" class="form-control col-10" id="titleInput">
 				</div>
 				<textarea class="form-control mt-3" rows="7" id="contentsInput"></textarea>
-				<input type="file" class="mt-2">
+				<input type="file" class="mt-2" id="fileInput">
 				<div class="d-flex justify-content-between mt-3">
 					<a href="/post/list-view" class="btn btn-secondary">목록으로</a>
 					<button type="button" class="btn btn-secondary" id="saveBtn">저장</button>
@@ -44,6 +44,8 @@
 			let title = $("#titleInput").val();
 			let contents = $("#contentsInput").val();
 			
+			let file = $("#fileInput")[0].files[0];
+			
 			if(title == "") {
 				alert("제목을 입력하세요");
 				return ;
@@ -54,11 +56,19 @@
 				return ;
 			}
 			
+			let formData = new FormData();
+			formData.append("title", title);
+			formData.append("contents", contents);
+			formData.append("imageFile", file);
+			
 			$.ajax({
 				type:"post"
 				, url:"/post/create"
-				, data:{"title":title, "contents":contents}
-				, success:function(data) {
+				, data:formData
+				, enctype:"multipart/form-data"  // 파일 업로드 필수 옵션
+				, processData:false // 파일 업로드 필수 옵션
+				, contentType:false // 파일 업로드 필수 옵션
+				, success:function(data) { 
 					if(data.result == "success") {
 						location.href = "/post/list-view";
 					} else {
