@@ -15,6 +15,10 @@ public class FileManager {
 	
 	public static String saveFile(int userId, MultipartFile file) {
 		
+		if(file == null) {
+			return null;
+		}
+		
 		// 같은 이름의 파일 처리 
 		// 폴더(디렉토리)만들어서 파일 저장
 		// 로그인사용자의 userId를 폴더 이름 
@@ -58,5 +62,43 @@ public class FileManager {
 		return "/images" + directoryName + "/" + file.getOriginalFilename();
 		
 	}
+	
+	public static boolean removeFile(String filePath) { //  /images/2_1710241687236/coffee-7121939_640.jpg
 
+		if(filePath == null) {
+			return false;
+		}
+		
+		// 삭제대상 파일 경로 
+		String fullFilePath = FILE_UPLOAD_PATH + filePath.replace("/images", "");
+		
+		Path path = Paths.get(fullFilePath);
+		
+		// 파일이 존재하는지 
+		if(Files.exists(path)) {
+			try {
+				Files.delete(path);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		
+		// 디렉토리 삭제
+		Path dirPath = path.getParent();
+		
+		if(Files.exists(dirPath)) {
+			try {
+				Files.delete(dirPath);
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+				
+				return false;
+			}
+		}
+		
+		return true;
+		
+	}
 }

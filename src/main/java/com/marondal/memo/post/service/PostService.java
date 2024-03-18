@@ -49,5 +49,38 @@ public class PostService {
 		return post;
 		
 	}
+	
+	public Post updatePost(int id, String title, String contents) {
+		// 수정 대상 데이터 조회
+		// 조회된 객체에서 필요한 값 수정
+		// 해당 객체를 저장
+		Optional<Post> optionalPost = postRepository.findById(id);
+		Post post = optionalPost.orElse(null);
+		
+		if(post != null) {
+			post = post.toBuilder()
+				.title(title)
+				.contents(contents)
+				.build();
+			
+			post = postRepository.save(post);
+		}
+		
+		return post;
+	}
+	
+	public Post deletePost(int id) {
+		
+		Optional<Post> optionalPost = postRepository.findById(id);
+		Post post = optionalPost.orElse(null);
+		
+		if(post != null) {
+			FileManager.removeFile(post.getImagePath());
+			postRepository.delete(post);
+		}
+		
+		return post;
+		
+	}
 
 }
