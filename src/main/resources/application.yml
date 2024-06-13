@@ -19,6 +19,8 @@
 #spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
 spring:
+  thymeleaf:
+    cache: false
   jpa:
     show-sql: true
     hibernate:
@@ -36,8 +38,5 @@ spring:
     password: root
   mvc:
     static-path-pattern: /static/**
-    view:
-      prefix: /WEB-INF/jsp/
-      suffix: .jsp
 mybatis:
   mapper-locations: mappers/*Mapper.xml

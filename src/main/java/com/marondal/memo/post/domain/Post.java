@@ -1,5 +1,6 @@
 package com.marondal.memo.post.domain;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.hibernate.annotations.UpdateTimestamp;
@@ -38,11 +39,11 @@ public class Post {
 	
 	@UpdateTimestamp
 	@Column(name="createdAt", updatable=false)
-	private Date createdAt;
+	private LocalDateTime createdAt;
 	
 	@UpdateTimestamp
 	@Column(name="updatedAt")
-	private Date updatedAt;
+	private LocalDateTime updatedAt;
 	
 	
 

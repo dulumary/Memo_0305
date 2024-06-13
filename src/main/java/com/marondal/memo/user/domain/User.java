@@ -1,6 +1,6 @@
 package com.marondal.memo.user.domain;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class User {
 	
@@ -9,8 +9,8 @@ public class User {
 	private String password;
 	private String name;
 	private String email;
-	private Date createdAt;
-	private Date updatedAt;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 	
 	
 	public int getId() {
@@ -43,16 +43,16 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
-	public Date getUpdatedAt() {
+	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 	

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/default}">
+<head>
+	<section layout:fragment="contents" class="contents d-flex justify-content-center">
+		<div class="post-box my-5" th:data-post-id="${post.id }" id="contents">
+			<h1 class="text-center">메모 보기</h1>
+			
+			<div class="d-flex mt-3">
+				<label class="col-2">제목 : </label>
+				<input type="text" class="form-control col-10" id="titleInput" th:value="${post.title }">
+			</div>
+			<textarea class="form-control mt-3" rows="7" id="contentsInput" th:text="${post.contents }"></textarea>
+			<img th:src="${post.imagePath }" class="w-100">
+			<div class="d-flex justify-content-between mt-3">
+				<div>
+					<a href="/post/list-view" class="btn btn-secondary">목록으로</a>
+					<button type="button" class="btn btn-danger" id="deleteBtn">삭제하기</button>
+				</div>
+				<button type="button" class="btn btn-secondary" id="updateBtn">수정</button>
+			</div>
+		</div>
+	</section>
+	
+	<th:block layout:fragment="script">
+		<script>
+			$(document).ready(function() {
+				
+				$("#deleteBtn").on("click", function() {
+					
+					let postId = $("#contents").data("post-id");
+					
+					$.ajax({
+						type:"delete"
+						, url:"/post/delete"
+						, data:{"id":postId}
+						, success:function(data) {
+							if(data.result == "success") {
+								location.href = "/post/list-view";
+							} else {
+								alert("삭제 실패");
+							}
+						}
+						, error:function() {
+							alert("삭제 에러");
+						}
+					});
+				});
+				
+				
+				$("#updateBtn").on("click", function() {
+					let title = $("#titleInput").val();
+					let contents = $("#contentsInput").val();
+					let postId = $("#contents").data("post-id");
+					
+					if(title == "") {
+						alert("제목을 입력하세요");
+						return ;
+					}
+					
+					if(contents == "") {
+						alert("내용을 입력하세요");
+						return ;
+					}
+					
+					$.ajax({
+						type:"put"
+						, url:"/post/update"
+						, data:{"id":postId, "title":title, "contents":contents}
+						, success:function(data) {
+							if(data.result == "success") {
+								location.reload();
+							} else {
+								alert("수정 실패");
+							}
+						}
+						, error:function() {
+							alert("수정 에러!");
+						}
+					});
+				})
+			});
+		
+		
+		</script>
+	</th:block>
+
+</html>

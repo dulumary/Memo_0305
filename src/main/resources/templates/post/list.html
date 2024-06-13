@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/default}">
+	
+	<section layout:fragment="contents" class="contents d-flex justify-content-center">
+		<div class="post-box my-5">
+			<h1 class="text-center">메모 리스트</h1>
+			
+			<table class="table text-center">
+				<thead>
+					<tr>
+						<th>No.</th>
+						<th>제목</th>
+						<th>시간</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+					<tr th:each="post:${postList}">
+						<td th:text="${post.id }"></td>
+						<td><a th:href="@{/post/detail-view(id=${post.id})}" th:text="${post.title }">메모입니다</a></td>
+						<td th:text="${#temporals.format(post.createdAt, 'yyyy년 M월 d일 H시 m분')}">2024년 5월 3일 12시 30분</td>
+					</tr>
+					
+				</tbody>
+			
+			</table>
+			
+			<div class="d-flex justify-content-end">
+				<a href="/post/create-view" class="btn btn-secondary">글 쓰기</a>
+			</div>
+			
+		</div>
+	</section>
+</html>
